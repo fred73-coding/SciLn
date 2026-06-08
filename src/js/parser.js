@@ -130,31 +130,32 @@ function tokenizeMath(text) {
  */
 function parseScientificContent(rawText) {
     if (!rawText) return "";
+    if (!rawText.includes('$')) return DOMPurify.sanitize(marked.parse(rawText), { USE_PROFILES: { html: true } });
 
     // Paso 1: Tokenizar (separa markdown de math)
     const tokens = tokenizeMath(rawText);
 
-    // Paso 2: Reconstruir el texto completo reemplazando cada math por un placeholder único.
-    // Esto permite que marked procese el documento completo con su estructura de bloques intacta.
-    // Usamos «§§» como wrapper — son caracteres seguros que ni marked ni DOMPurify modifican.
-    const placeholders = [];
-    let fullText = "";
-    for (const token of tokens) {
-        if (token.type === 'markdown') {
-            fullText += token.content;
+    // Paso 2: Reconstruir texto completo con placeholders --MATH-N--
+    // Usamos guiones dobles: ningún dialecto Markdown les da significado
+    // en medio de un párrafo y DOMPurify no los modifica.
+    const mathItems = [];
+    let text = '';
+    for (const t of tokens) {
+        if (t.type === 'markdown') {
+            text += t.content;
         } else {
-            const ph = `\xA7\xA7MATH-IDX-${placeholders.length}-END\xA7\xA7`;
-            placeholders.push({ ph, token });
-            fullText += ph;
+            const id = `--MATH-${mathItems.length}--`;
+            mathItems.push({ token: t, id });
+            text += id;
         }
     }
 
-    // Paso 3: Parsear el documento COMPLETO con marked (preserva párrafos, listas, etc.)
-    const rawHtml = marked.parse(fullText);
+    // Paso 3: Parsear el documento COMPLETO con marked
+    const rawHtml = marked.parse(text);
 
     // Paso 4: Reemplazar placeholders con KaTeX compilado
     let html = rawHtml;
-    for (const { ph, token } of placeholders) {
+    for (const { token, id } of mathItems) {
         let mathHtml;
         try {
             mathHtml = katex.renderToString(token.content, {
@@ -164,7 +165,8 @@ function parseScientificContent(rawText) {
         } catch (error) {
             mathHtml = `<span class="text-red-500 font-mono text-xs" title="${error.message}">[Error LaTeX: ${token.content}]</span>`;
         }
-        html = html.replace(ph, mathHtml);
+        // split + join es más seguro que .replace() con caracteres especiales
+        html = html.split(id).join(mathHtml);
     }
 
     // Paso 5: Sanitizar
