@@ -120,77 +120,57 @@ function tokenizeMath(text) {
 }
 
 /**
- * 2. COMPILADOR DE TOKENS MATEMÁTICOS
- * Transforma las ecuaciones LaTeX en strings HTML nativos e inmutables usando KaTeX.
- * * @ param {Array<Object>} tokens - Arreglo provisto por tokenizeMath.
- * @ returns {Array<Object>} Mismo arreglo con el contenido matemático compilado a HTML.
- */
-function compileMathTokens(tokens) {
-    return tokens.map(token => {
-        if (token.type !== 'math') return token;
-
-        try {
-            // KaTeX compila localmente de forma ultra-veloz
-            const compiledHtml = katex.renderToString(token.content, {
-                displayMode: token.displayMode,
-                throwOnError: false // Previene cierres inesperados ante errores de sintaxis del autor
-            });
-            
-            return {
-                type: 'compiled_html',
-                content: compiledHtml
-            };
-        } catch (error) {
-            // Callback visual en caso de que la expresión matemática esté mal estructurada
-            return {
-                type: 'compiled_html',
-                content: `<span class="text-red-500 font-mono text-xs" title="${error.message}">[Errores en LaTeX: ${token.content}]</span>`
-            };
-        }
-    });
-}
-
-/**
- * 3. ENSAMBLADOR PRINCIPAL Y PURIFICADOR CIENTÍFICO
+ * 2. ENSAMBLADOR PRINCIPAL Y PURIFICADOR CIENTÍFICO
  * Punto de entrada único de la interfaz de usuario.
  * Procesa el pipeline completo garantizando blindaje total contra XSS en redes P2P.
+ * Usa placeholders para que marked preserve la estructura del documento completo
+ * y las ecuaciones inline fluyan con el texto.
  * * @ param {string} rawText - Markdown + LaTeX en bruto desde el editor o un relay Nostr.
  * @ returns {string} HTML final sanitizado, listo para asignarse de forma segura al DOM.
  */
 function parseScientificContent(rawText) {
     if (!rawText) return "";
 
-    // Paso 1: Segmentar y aislar componentes
+    // Paso 1: Tokenizar (separa markdown de math)
     const tokens = tokenizeMath(rawText);
 
-    // Paso 2: Compilar las matemáticas de forma aislada
-    const processTokens = compileMathTokens(tokens);
-
-    // Paso 3: Procesar bloques individuales y reensamblar de forma segura
-    const finalHtmlArray = processTokens.map(token => {
-        if (token.type === 'compiled_html') {
-            // El HTML proveniente de KaTeX es seguro por diseño y no se toca para evitar romper MathML
-            return token.content;
-        }
-
+    // Paso 2: Reconstruir el texto completo reemplazando cada math por un placeholder único.
+    // Esto permite que marked procese el documento completo con su estructura de bloques intacta.
+    // Usamos «§§» como wrapper — son caracteres seguros que ni marked ni DOMPurify modifican.
+    const placeholders = [];
+    let fullText = "";
+    for (const token of tokens) {
         if (token.type === 'markdown') {
-            // Convertir la prosa mediante Marked.js
-            const rawMarkdownHtml = marked.parse(token.content);
-            
-            // Sanitización estricta sobre el código Markdown (Destruye scripts, iframes e inyecciones)
-            // Usamos DOMPurify configurado para entornos SPA reactivos
-            const safeMarkdownHtml = DOMPurify.sanitize(rawMarkdownHtml, {
-                USE_PROFILES: { html: true }
-            });
-            
-            return safeMarkdownHtml;
+            fullText += token.content;
+        } else {
+            const ph = `\xA7\xA7MATH-IDX-${placeholders.length}-END\xA7\xA7`;
+            placeholders.push({ ph, token });
+            fullText += ph;
         }
-        
-        return "";
-    });
+    }
 
-    // Unificación final de los strings resultantes
-    return finalHtmlArray.join("");
+    // Paso 3: Parsear el documento COMPLETO con marked (preserva párrafos, listas, etc.)
+    const rawHtml = marked.parse(fullText);
+
+    // Paso 4: Reemplazar placeholders con KaTeX compilado
+    let html = rawHtml;
+    for (const { ph, token } of placeholders) {
+        let mathHtml;
+        try {
+            mathHtml = katex.renderToString(token.content, {
+                displayMode: token.displayMode,
+                throwOnError: false
+            });
+        } catch (error) {
+            mathHtml = `<span class="text-red-500 font-mono text-xs" title="${error.message}">[Error LaTeX: ${token.content}]</span>`;
+        }
+        html = html.replace(ph, mathHtml);
+    }
+
+    // Paso 5: Sanitizar
+    return DOMPurify.sanitize(html, {
+        USE_PROFILES: { html: true }
+    });
 }
 
 // Exportación modular limpia para su uso en main.js u otros orquestadores del cliente
