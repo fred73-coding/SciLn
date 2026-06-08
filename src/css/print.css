@@ -1,0 +1,57 @@
+/* print.css — Rules for window.print() (Exporter.printElement).
+   Hides everything except .print-area, which is the cloned printable
+   region injected by exporter.js. */
+
+@media print {
+  html, body {
+    background: white !important;
+    color: black !important;
+  }
+  body * { visibility: hidden; }
+  .print-area, .print-area * { visibility: visible; }
+  .print-area {
+    position: absolute !important;
+    left: 0;
+    top: 0;
+    width: 100%;
+    background: white;
+    color: black;
+    font-size: 11pt;
+    line-height: 1.5;
+    padding: 0;
+    margin: 0;
+  }
+  .print-area .prose {
+    color: black;
+    max-width: 100%;
+  }
+  .print-area a {
+    color: #1e40af;
+    text-decoration: underline;
+  }
+  .print-area img {
+    max-width: 100% !important;
+    page-break-inside: avoid;
+  }
+  .print-area pre, .print-area code {
+    background: #f1f5f9 !important;
+    color: #1e293b !important;
+    border: 1px solid #cbd5e1;
+    page-break-inside: avoid;
+  }
+  .print-area h1, .print-area h2, .print-area h3 {
+    page-break-after: avoid;
+  }
+  .print-area .katex, .print-area .katex-display {
+    color: black;
+  }
+  .print-area .vote-column,
+  .print-area button,
+  .print-area .revision-nav-btn,
+  .print-area [data-action] {
+    display: none !important;
+  }
+}
+@media screen {
+  .print-wrapper { display: none; }
+}

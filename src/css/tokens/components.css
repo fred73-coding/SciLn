@@ -1,0 +1,53 @@
+/* tokens/components.css — Component-scoped design tokens.
+   References semantic.css; not used directly by application DOM. */
+
+:root {
+  /* ─── Card ─── */
+  --card-bg:           var(--bg-card);
+  --card-border:       var(--border-card);
+  --card-shadow-rest:  var(--shadow-sm);
+  --card-shadow-hover: var(--shadow-md);
+
+  /* ─── Vote buttons ─── */
+  --vote-btn-inactive:    var(--text-muted);
+  --vote-btn-up:          var(--sol-green);
+  --vote-btn-down:        var(--sol-red);
+  --vote-btn-active-scale: 1.35;
+  --vote-btn-transition:  transform 0.12s ease, color 0.15s ease;
+
+  /* ─── Tags (taxonomía de SciLn) ─── */
+  --tag-theoretical:   var(--sol-violet);
+  --tag-experimental:  var(--sol-magenta);
+  --tag-computational: var(--sol-cyan);
+  --tag-review:        var(--sol-orange);
+  --tag-bg-soft:       var(--accent-light);
+  --tag-text-soft:     var(--accent);
+
+  /* ─── Badges (revisiones, enmiendas) ─── */
+  --badge-fork-bg:    var(--warning-light);
+  --badge-fork-text:  var(--warning);
+  --badge-version-bg: var(--accent-light);
+  --badge-version-text: var(--accent);
+
+  /* ─── Links ─── */
+  --link-default: var(--text-link);
+  --link-hover:   var(--accent-hover);
+
+  /* ─── Editor toolbar ─── */
+  --editor-toolbar-bg:     var(--bg-canvas);
+  --editor-toolbar-border: var(--border-card);
+  --editor-toolbar-text:   var(--text-body);
+
+  /* ─── Focus ring ─── */
+  --focus-ring-color: var(--accent);
+  --focus-ring-width: 2px;
+
+  /* ─── Code (prose, kbd) ─── */
+  --code-bg:   var(--bg-code);
+  --code-text: var(--text-heading);
+
+  /* ─── Scrollbar ─── */
+  --scrollbar-thumb:       var(--text-muted);
+  --scrollbar-thumb-hover: var(--text-body);
+  --scrollbar-width:       6px;
+}

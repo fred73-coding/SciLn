@@ -1,0 +1,12 @@
+/* styles.css — Entry point for the SciLn theme system.
+   Cascade order: tokens (primitives → semantic → components) → base
+                  → components (DOM) → animations → print.
+   Dark mode is automatic: @media (prefers-color-scheme) and [data-theme]
+   re-define semantic vars in tokens/semantic.css. No dark-mode prefixes
+   are needed in components.css. */
+
+@import "./tokens/index.css";
+@import "./base.css";
+@import "./components.css";
+@import "./animations.css";
+@import "./print.css";

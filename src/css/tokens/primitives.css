@@ -1,0 +1,34 @@
+/* tokens/primitives.css — Solarized raw color scale (Ethan Schoonover, 2011).
+   This layer holds the literal hex values from the canonical palette.
+   Application code should NEVER reference these vars directly;
+   use semantic tokens from semantic.css instead.
+
+   Source: https://ethanschoonover.com/solarized/
+   Same 16 colors are used in both light and dark themes — only their
+   semantic mapping changes in semantic.css. */
+
+:root {
+  /* Solarized base scale (8 grayscale tones, base3 = lightest) */
+  --sol-base03: #002b36;
+  --sol-base02: #073642;
+  --sol-base01: #586e75;
+  --sol-base00: #657b83;
+  --sol-base0:  #839496;
+  --sol-base1:  #93a1a1;
+  --sol-base2:  #eee8d5;
+  --sol-base3:  #fdf6e3;
+
+  /* Solarized accent scale (8 hues) */
+  --sol-yellow:  #b58900;
+  --sol-orange:  #cb4b16;
+  --sol-red:     #dc322f;
+  --sol-magenta: #d33682;
+  --sol-violet:  #6c71c4;
+  --sol-blue:    #268bd2;
+  --sol-cyan:    #2aa198;
+  --sol-green:   #859900;
+
+  /* Neutrals not in Solarized (sparingly used) */
+  --sol-white:   #ffffff;
+  --sol-black:   #000000;
+}

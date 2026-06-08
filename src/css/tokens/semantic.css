@@ -1,0 +1,137 @@
+/* tokens/semantic.css — Purpose-mapped design tokens.
+   Layers onto primitives.css; components should reference these, never primitives.
+
+   Resolution order (highest wins):
+     [data-theme="dark"] > @media prefers-color-scheme:dark > :root
+   Manual user override via theme.js sets data-theme attribute which always wins. */
+
+:root {
+  color-scheme: light;
+
+  /* ─── Surfaces (bg-*) ─── */
+  --bg-page:    #fdf6e3;
+  --bg-card:    #ffffff;
+  --bg-canvas:  #eee8d5;
+  --bg-code:    #eee8d5;
+  --bg-input:   #ffffff;
+
+  /* ─── Text ─── */
+  --text-body:    #4f6975;
+  --text-muted:   #7d8e8e;
+  --text-heading: #002b36;
+  --text-inverse: #fdf6e3;
+  --text-link:    #1d6fa8;
+
+  /* ─── Borders ─── */
+  --border-card:   #eee8d5;
+  --border-light:  #f5efde;
+  --border-strong: #93a1a1;
+
+  /* ─── Accent (primary action color) ─── */
+  --accent:       #1d6fa8;
+  --accent-hover: #155a8a;
+  --accent-light: #e8eef5;
+  --accent-text:  #ffffff;
+
+  /* ─── Status ─── */
+  --success:       #6d7a00;
+  --success-light: #e8edd2;
+  --warning:       #946c00;
+  --warning-light: #f4e9c8;
+  --danger:        #b32623;
+  --danger-light:  #f5d6d3;
+
+  /* ─── Nav + editor chrome ─── */
+  --nav-bg:     #002b36;
+  --nav-text:   #fdf6e3;
+  --editor-bg:  #fbf5e1;
+  --editor-text:#002b36;
+
+  /* ─── Shadows (Solarized base02-tinted for warmth) ─── */
+  --shadow-sm: 0 1px 2px rgba(7, 54, 66, 0.08);
+  --shadow-md: 0 4px 6px -1px rgba(7, 54, 66, 0.10), 0 2px 4px -2px rgba(7, 54, 66, 0.06);
+  --shadow-lg: 0 10px 15px -3px rgba(7, 54, 66, 0.12), 0 4px 6px -4px rgba(7, 54, 66, 0.08);
+}
+
+/* ──────────────────────────────────────────────────────────────────────
+   Dark theme
+   Two triggers, identical result:
+     1) @media (prefers-color-scheme: dark) — system-level, no user choice
+     2) [data-theme="dark"]                — manual toggle (always wins)
+   Both blocks use :not([data-theme="light"]) on the media query so a
+   stored "light" override is respected even on a dark system.
+   ────────────────────────────────────────────────────────────────────── */
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --bg-page:    #002b36;
+    --bg-card:    #073642;
+    --bg-canvas:  #03242e;
+    --bg-code:    #03242e;
+    --bg-input:   #073642;
+    --text-body:    #93a1a1;
+    --text-muted:   #94a1a1;
+    --text-heading: #eee8d5;
+    --text-inverse: #002b36;
+    --text-link:    #9aa1e3;
+    --border-card:   #073642;
+    --border-light:  #03242e;
+    --border-strong: #586e75;
+    --accent:       #9aa1e3;
+    --accent-hover: #b0b6e9;
+    --accent-light: #073642;
+    --accent-text:  #002b36;
+    --success:       #a3b300;
+    --success-light: #2a3a0f;
+    --warning:       #d4a000;
+    --warning-light: #3d2f0a;
+    --danger:        #ef5350;
+    --danger-light:  #3d1212;
+    --nav-bg:     #001e26;
+    --nav-text:   #fdf6e3;
+    --editor-bg:  #001e26;
+    --editor-text:#eee8d5;
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.4);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.5);
+  }
+}
+
+[data-theme="dark"] {
+  color-scheme: dark;
+  --bg-page:    #002b36;
+  --bg-card:    #073642;
+  --bg-canvas:  #03242e;
+  --bg-code:    #03242e;
+  --bg-input:   #073642;
+  --text-body:    #93a1a1;
+  --text-muted:   #94a1a1;
+  --text-heading: #eee8d5;
+  --text-inverse: #002b36;
+  --text-link:    #9aa1e3;
+  --border-card:   #073642;
+  --border-light:  #03242e;
+  --border-strong: #586e75;
+  --accent:       #9aa1e3;
+  --accent-hover: #b0b6e9;
+  --accent-light: #073642;
+  --accent-text:  #002b36;
+  --success:       #a3b300;
+  --success-light: #2a3a0f;
+  --warning:       #d4a000;
+  --warning-light: #3d2f0a;
+  --danger:        #ef5350;
+  --danger-light:  #3d1212;
+  --nav-bg:     #001e26;
+  --nav-text:   #fdf6e3;
+  --editor-bg:  #001e26;
+  --editor-text:#eee8d5;
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.5);
+}
+
+[data-theme="light"] {
+  color-scheme: light;
+}
