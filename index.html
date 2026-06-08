@@ -19,36 +19,44 @@
 <body class="min-h-screen">
 
 <!-- NAV -->
-<nav class="bg-slate-900 text-white px-4 py-3 flex items-center justify-between shadow-md sticky top-0 z-40">
-    <div class="flex items-center gap-6">
-        <h1 class="text-lg font-bold font-mono">🔬 SciLn</h1>
-        <div class="flex gap-1">
+<nav class="bg-slate-900 text-white px-2 sm:px-4 py-3 flex items-center justify-between shadow-md sticky top-0 z-40">
+    <div class="flex items-center gap-2 sm:gap-6">
+        <h1 class="text-base sm:text-lg font-bold font-mono">🔬 SciLn</h1>
+        <button id="mobile-menu-btn" class="sm:hidden p-2 rounded hover:bg-slate-800 transition" aria-label="Menú">☰</button>
+        <div class="hidden sm:flex gap-1">
             <a href="#/feed" class="nav-link px-3 py-1.5 rounded text-sm font-mono transition hover:bg-slate-800" data-page="feed">Feed</a>
             <a href="#/my-lab" class="nav-link px-3 py-1.5 rounded text-sm font-mono transition hover:bg-slate-800" data-page="my-lab">Mi Lab</a>
             <a href="#/editor" class="nav-link px-3 py-1.5 rounded text-sm font-mono transition hover:bg-slate-800" data-page="editor">Editor</a>
         </div>
     </div>
-    <button id="theme-toggle-btn" class="theme-toggle" title="Cambiar tema">🌙</button>
-    <div class="relative" id="nav-avatar-container">
-        <div id="nav-avatar-area" class="hidden">
-            <button id="nav-avatar-btn" class="flex items-center gap-2 hover:bg-slate-800 rounded-lg px-2 py-1 transition">
-                <img id="nav-avatar-img" src="" class="w-8 h-8 rounded-full border border-slate-600">
-                <span id="nav-avatar-name" class="text-sm font-mono max-w-[120px] truncate"></span>
-            </button>
-            <div id="nav-dropdown" class="absolute right-0 top-full mt-1 bg-white text-slate-800 rounded-lg shadow-xl border border-slate-200 w-52 font-mono text-sm hidden z-50">
-                <div class="px-3 py-2 border-b border-slate-100">
-                    <div id="dropdown-pubkey" class="text-[10px] text-slate-500 truncate"></div>
+    <div class="flex items-center gap-1 sm:gap-2">
+        <button id="theme-toggle-btn" class="theme-toggle" title="Cambiar tema">🌙</button>
+        <div class="relative" id="nav-avatar-container">
+            <div id="nav-avatar-area" class="hidden">
+                <button id="nav-avatar-btn" class="flex items-center gap-2 hover:bg-slate-800 rounded-lg px-2 py-1 transition">
+                    <img id="nav-avatar-img" src="" class="w-7 h-7 sm:w-8 sm:h-8 rounded-full border border-slate-600">
+                    <span id="nav-avatar-name" class="text-xs sm:text-sm font-mono max-w-[100px] sm:max-w-[120px] truncate hidden sm:inline"></span>
+                </button>
+                <div id="nav-dropdown" class="absolute right-0 top-full mt-1 bg-white text-slate-800 rounded-lg shadow-xl border border-slate-200 w-52 font-mono text-sm hidden z-50">
+                    <div class="px-3 py-2 border-b border-slate-100">
+                        <div id="dropdown-pubkey" class="text-[10px] text-slate-500 truncate"></div>
+                    </div>
+                    <a href="#/my-lab" class="flex items-center gap-2 px-3 py-2 hover:bg-slate-50 transition">👤 Mi Perfil</a>
+                    <button id="dropdown-logout" class="w-full flex items-center gap-2 px-3 py-2 hover:bg-slate-50 text-rose-600 transition">🚪 Cerrar Sesión</button>
                 </div>
-                <a href="#/my-lab" class="flex items-center gap-2 px-3 py-2 hover:bg-slate-50 transition">👤 Mi Perfil</a>
-                <button id="dropdown-logout" class="w-full flex items-center gap-2 px-3 py-2 hover:bg-slate-50 text-rose-600 transition">🚪 Cerrar Sesión</button>
             </div>
-        </div>
-        <div id="nav-logged-out" class="flex gap-2">
-            <button id="btn-login-extension" class="bg-violet-600 hover:bg-violet-700 text-white text-xs px-3 py-1.5 rounded font-bold transition">🔑 Extensión</button>
-            <button id="btn-generate-keys" class="bg-slate-700 hover:bg-slate-800 text-white text-xs px-3 py-1.5 rounded font-mono transition">⚡ Llave Local</button>
+            <div id="nav-logged-out" class="flex gap-1 sm:gap-2">
+                <button id="btn-login-extension" class="bg-violet-600 hover:bg-violet-700 text-white px-2 py-1.5 sm:px-3 text-[10px] sm:text-xs rounded font-bold transition">🔑 Ext</button>
+                <button id="btn-generate-keys" class="bg-slate-700 hover:bg-slate-800 text-white px-2 py-1.5 sm:px-3 text-[10px] sm:text-xs rounded font-mono transition">⚡ Local</button>
+            </div>
         </div>
     </div>
 </nav>
+<div id="mobile-menu" class="sm:hidden hidden bg-slate-900 border-t border-slate-700 shadow-lg">
+    <a href="#/feed" class="flex items-center gap-3 px-6 py-3.5 text-sm font-mono text-white hover:bg-slate-800 transition" data-page="feed">📰 Feed</a>
+    <a href="#/my-lab" class="flex items-center gap-3 px-6 py-3.5 text-sm font-mono text-white hover:bg-slate-800 transition" data-page="my-lab">🔬 Mi Lab</a>
+    <a href="#/editor" class="flex items-center gap-3 px-6 py-3.5 text-sm font-mono text-white hover:bg-slate-800 transition" data-page="editor">✏️ Editor</a>
+</div>
 
 <div class="max-w-7xl mx-auto px-4 mt-3">
     <div id="nostr-network-status" class="text-xs bg-red-950 border border-red-600 text-red-400 font-mono px-3 py-1.5 rounded inline-block">🔴 Desconectado</div>
@@ -68,37 +76,37 @@
         <span class="text-xs text-muted font-bold tracking-wider">ROL:</span>
         <div id="filter-role-chips" class="flex items-center gap-1 flex-wrap"></div>
     </div>
-    <div id="feed-filters-toolbar" class="flex items-center gap-3 flex-wrap text-xs font-mono p-2 bg-slate-50 border border-slate-200 rounded-lg">
+    <div id="feed-filters-toolbar" class="flex items-center gap-2 sm:gap-3 flex-wrap text-[10px] sm:text-xs font-mono p-2 bg-slate-50 border border-slate-200 rounded-lg">
         <div class="flex items-center gap-1">
-            <span class="text-[10px] text-slate-400 font-bold tracking-wider">ORDENAR:</span>
-            <select id="feed-sort" class="text-[10px] p-1 bg-white border border-slate-200 rounded font-mono focus:outline-indigo-500">
+            <span class="text-[9px] sm:text-[10px] text-slate-400 font-bold tracking-wider">ORD:</span>
+            <select id="feed-sort" class="text-[9px] sm:text-[10px] p-1 bg-white border border-slate-200 rounded font-mono focus:outline-indigo-500">
                 <option value="recent">🕐 Recientes</option>
-                <option value="top">🔥 Top votados</option>
-                <option value="discussed">💬 Más comentados</option>
-                <option value="forked">🔀 Más forkeados</option>
+                <option value="top">🔥 Top</option>
+                <option value="discussed">💬 Comentados</option>
+                <option value="forked">🔀 Forkeados</option>
                 <option value="alpha">🔤 A-Z</option>
             </select>
         </div>
         <div class="flex items-center gap-1">
-            <span class="text-[10px] text-slate-400 font-bold tracking-wider">TIEMPO:</span>
-            <select id="feed-time-range" class="text-[10px] p-1 bg-white border border-slate-200 rounded font-mono focus:outline-indigo-500">
+            <span class="text-[9px] sm:text-[10px] text-slate-400 font-bold tracking-wider">TMP:</span>
+            <select id="feed-time-range" class="text-[9px] sm:text-[10px] p-1 bg-white border border-slate-200 rounded font-mono focus:outline-indigo-500">
                 <option value="all">Todo</option>
                 <option value="24h">24h</option>
-                <option value="7d">7 días</option>
-                <option value="30d">30 días</option>
-                <option value="90d">90 días</option>
+                <option value="7d">7d</option>
+                <option value="30d">30d</option>
+                <option value="90d">90d</option>
             </select>
         </div>
-        <label class="flex items-center gap-1 cursor-pointer select-none">
+        <label class="flex items-center gap-1 cursor-pointer select-none text-[9px] sm:text-[10px]">
             <input type="checkbox" id="feed-only-bookmarks" class="cursor-pointer">
-            <span>⭐ Solo guardados</span>
+            <span>⭐ Guardados</span>
         </label>
-        <label class="flex items-center gap-1 cursor-pointer select-none">
+        <label class="flex items-center gap-1 cursor-pointer select-none text-[9px] sm:text-[10px]">
             <input type="checkbox" id="feed-hide-superseded" class="cursor-pointer">
-            <span>🙈 Ocultar superseded</span>
+            <span>🙈 Ocultar</span>
         </label>
-        <button id="btn-feed-reset-filters" type="button" class="text-[10px] text-slate-400 hover:text-rose-600 font-mono ml-auto" title="Restablecer filtros">↺ Reset</button>
-        <span id="feed-result-count" class="text-[10px] text-slate-400 font-mono shrink-0">0 de 0 posts</span>
+        <button id="btn-feed-reset-filters" type="button" class="text-[9px] sm:text-[10px] text-slate-400 hover:text-rose-600 font-mono ml-auto" title="Restablecer filtros">↺ Reset</button>
+        <span id="feed-result-count" class="text-[9px] sm:text-[10px] text-slate-400 font-mono shrink-0">0/0</span>
     </div>
     <div id="feed-empty-bookmarks-msg" class="hidden text-center text-slate-400 font-mono text-xs py-8 border border-dashed border-slate-200 rounded-lg">
         ⭐ No tenés posts guardados. Pulsá ☆ en cualquier post del feed para guardarlo.
@@ -108,11 +116,11 @@
 
 <!-- PAGE: MY LAB -->
 <div id="page-my-lab" class="page max-w-7xl mx-auto px-4 mt-4 hidden">
-    <div class="flex gap-4 border-b border-slate-200 mb-6">
-        <button class="lab-tab py-2 px-4 border-b-2 border-indigo-600 font-bold text-indigo-600 text-sm font-mono" data-labtab="profile">👤 Mi Perfil</button>
-        <button class="lab-tab py-2 px-4 border-b-2 border-transparent text-slate-500 hover:text-indigo-600 text-sm font-mono" data-labtab="experiments">🧪 Mis Experimentos</button>
-        <button class="lab-tab py-2 px-4 border-b-2 border-transparent text-slate-500 hover:text-indigo-600 text-sm font-mono" data-labtab="revisions">📜 Mis Revisiones</button>
-        <button class="lab-tab py-2 px-4 border-b-2 border-transparent text-slate-500 hover:text-indigo-600 text-sm font-mono" data-labtab="bookmarks">⭐ Guardados (<span id="lab-bookmarks-count">0</span>)</button>
+    <div class="flex flex-wrap gap-1 sm:gap-4 border-b border-slate-200 mb-6">
+        <button class="lab-tab py-2 px-3 sm:px-4 border-b-2 border-indigo-600 font-bold text-indigo-600 text-[11px] sm:text-sm font-mono" data-labtab="profile">👤 Perfil</button>
+        <button class="lab-tab py-2 px-3 sm:px-4 border-b-2 border-transparent text-slate-500 hover:text-indigo-600 text-[11px] sm:text-sm font-mono" data-labtab="experiments">🧪 Experimentos</button>
+        <button class="lab-tab py-2 px-3 sm:px-4 border-b-2 border-transparent text-slate-500 hover:text-indigo-600 text-[11px] sm:text-sm font-mono" data-labtab="revisions">📜 Revisiones</button>
+        <button class="lab-tab py-2 px-3 sm:px-4 border-b-2 border-transparent text-slate-500 hover:text-indigo-600 text-[11px] sm:text-sm font-mono" data-labtab="bookmarks">⭐ Guardados (<span id="lab-bookmarks-count">0</span>)</button>
     </div>
 
     <div id="lab-profile" class="lab-content">
@@ -160,7 +168,7 @@
 
 <!-- PAGE: EDITOR -->
 <div id="page-editor" class="page max-w-7xl mx-auto px-4 mt-4 hidden">
-    <div class="flex items-center justify-between mb-4">
+        <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-4 gap-2">
         <div>
             <h2 class="text-sm font-bold font-mono text-slate-700">📝 HOJA DE TRABAJO</h2>
             <div id="amendment-indicator" class="text-[10px] text-amber-600 font-mono hidden">
@@ -168,17 +176,17 @@
                 <button id="btn-cancel-amendment" class="ml-2 text-slate-400 hover:text-slate-600 underline">Cancelar</button>
             </div>
         </div>
-        <div class="flex items-center gap-2">
+        <div class="flex items-center gap-2 self-end sm:self-auto">
             <button id="btn-clear-editor" class="text-xs text-slate-400 hover:text-slate-600 font-mono px-2 py-1">🗑️ Limpiar</button>
-            <button id="btn-publish-nostr" class="bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-mono font-bold px-4 py-2 rounded shadow transition" disabled>
-                Publicar Reporte Firmado 🚀
+            <button id="btn-publish-nostr" class="bg-emerald-600 hover:bg-emerald-700 text-white text-[10px] sm:text-xs font-mono font-bold px-3 sm:px-4 py-2 rounded shadow transition" disabled>
+                🚀 Publicar
             </button>
         </div>
     </div>
     <div id="commit-message-wrapper" class="mb-4 hidden">
-        <label class="block text-[10px] font-bold text-amber-700 font-mono mb-1 tracking-wider">📝 RESUMEN DE LA EDICIÓN (obligatorio para revisiones):</label>
+        <label class="block text-[10px] font-bold text-amber-700 font-mono mb-1 tracking-wider">📝 RESUMEN DE LA EDICIÓN:</label>
         <div class="flex items-center gap-2">
-            <input id="commit-message" type="text" maxlength="120" class="flex-1 p-2 bg-amber-50 border border-amber-200 rounded text-xs font-mono focus:outline-amber-500" placeholder="Ej: Corregí unidades en la Ec. 2" />
+            <input id="commit-message" type="text" maxlength="120" class="flex-1 p-2 bg-amber-50 border border-amber-200 rounded text-[10px] sm:text-xs font-mono focus:outline-amber-500" placeholder="Ej: Corregí unidades en la Ec. 2" />
             <span id="commit-counter" class="text-[10px] text-slate-400 font-mono shrink-0">0/120</span>
         </div>
     </div>
@@ -212,7 +220,7 @@
                 <span class="ml-auto text-[10px] text-slate-500 font-mono px-2 hidden lg:inline">Ctrl+B / I / E / K · Alt+M · Tab · Ctrl+Enter</span>
             </div>
             <div class="relative">
-                <textarea id="test-editor" class="w-full h-[60vh] p-4 font-mono text-xs bg-slate-950 text-slate-100 rounded-b-lg focus:outline-none resize-none leading-relaxed border border-slate-700 border-t-0" placeholder="Escribe tu reporte científico aquí... (pega o arrastra imágenes)"></textarea>
+                <textarea id="test-editor" class="w-full h-[35vh] sm:h-[50vh] lg:h-[60vh] p-3 sm:p-4 font-mono text-xs bg-slate-950 text-slate-100 rounded-b-lg focus:outline-none resize-none leading-relaxed border border-slate-700 border-t-0" placeholder="Escribe tu reporte científico aquí... (pega o arrastra imágenes)"></textarea>
                 <div id="drop-overlay" class="absolute inset-0 bg-indigo-600/20 border-2 border-dashed border-indigo-500 rounded-lg flex items-center justify-center pointer-events-none opacity-0 transition-opacity">
                     <span class="bg-slate-900 text-white text-xs font-mono px-4 py-2 rounded shadow-lg">📥 Adjuntar imagen</span>
                 </div>

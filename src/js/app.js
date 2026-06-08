@@ -1364,6 +1364,26 @@ setInterval(updateEditorSavedStatus, 10000);
 updateEditorCounter();
 updateEditorSavedStatus();
 
+// --- Mobile Menu ---
+
+const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+const mobileMenu = document.getElementById('mobile-menu');
+if (mobileMenuBtn && mobileMenu) {
+    mobileMenuBtn.addEventListener('click', () => {
+        mobileMenu.classList.toggle('open');
+    });
+    mobileMenu.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', () => {
+            mobileMenu.classList.remove('open');
+        });
+    });
+    document.addEventListener('click', (e) => {
+        if (!e.target.closest('#mobile-menu') && !e.target.closest('#mobile-menu-btn')) {
+            mobileMenu.classList.remove('open');
+        }
+    });
+}
+
 // --- Event Listeners ---
 
 editor.addEventListener("input", () => {
